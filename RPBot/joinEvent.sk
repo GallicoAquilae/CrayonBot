@@ -1,0 +1,6 @@
+on member join guild:
+	make embed:
+		set title of embed to "Bienvenue !"
+		set color of embed to green
+		set description of embed to "Bienvenue à toi %mention tag of event-user% !"
+	send last embed to channel with id "747908972018794509" with event-bot

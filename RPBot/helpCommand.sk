@@ -1,0 +1,8 @@
+discord command r!help:
+	trigger:
+		make embed:
+			set title of embed to "Erreur !"
+			set description of embed to "Rien à afficher ici :("
+			set color of embed to red
+		reply with last embed
+

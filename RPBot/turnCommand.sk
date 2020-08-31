@@ -1,0 +1,41 @@
+discord command r!turn [<string>] [<integer>]:
+	trigger:
+		if event-member has permission administrator:
+			if arg-1 is "set":
+				if arg-2 is an integer:
+					set yaml value "turn" from "rgdata" to arg-2
+					make embed:
+						set title of embed to "Tour changé !"
+						set description of embed to "Le tour sera maintenant défini à %arg-2% !"
+						set color of embed to green
+					reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser un nombre !"
+						set color of embed to red
+					reply with last embed
+			else if arg-1 is "next":
+				set {_turn} to yaml value "turn" from "rgdata"
+				add 1 to {_turn}
+				set yaml value "turn" from "rgdata" to {_turn}
+				delete event-message with event-bot
+				make embed:
+					set title of embed to "Début du tour %{_turn}% !"
+					set description of embed to "Nous passons au tour %{_turn}% !"
+					set color of embed to green
+				reply with last embed
+				reply with "@everyone"
+			else if arg-1 is "end":
+				delete event-message with event-bot
+				set {_turn} to yaml value "turn" from "rgdata"
+				make embed:
+					set title of embed to "Fin du tour %{_turn}% !"
+					set description of embed to "Le tour %{_turn}% est fini !"
+					set color of embed to green
+				reply with last embed
+				reply with "@everyone"
+			else:
+				reply with "pas le temps de faire un bo message d'erruer mais vérifie ta command fdp"
+		else:
+			reply with "pasl e temps de fairte msg d'erreur lmaius pas la perm fpd"

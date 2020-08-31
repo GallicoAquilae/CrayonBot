@@ -1,0 +1,11 @@
+on script load:
+	set {_time} to unix timestamp of now
+	login to "NzQ4OTkzNzYwNzIxMTA5MTEz.X0lgzA.V3bfgXIJFOOJAqKAVkEViLVL0WQ" with name "rpbot"
+	load "rpbot/data/bot" as "rbotdata"
+	load "rpbot/data/general" as "rgdata"
+
+on script unload:
+	logout "rpbot"
+	save yaml currently loaded yaml files
+	unload yaml currently loaded yaml files
+	delete "tpbot/temp/"
