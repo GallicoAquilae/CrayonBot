@@ -1,0 +1,114 @@
+discord command :quizz [<string>] [<string>]:
+	trigger:
+#		if event-bot is "QuizzBot":
+		if event-bot is "DiscordiaBot":
+			if event-member has permission manage channel in event-channel:
+				if arg-1 is "start" or "launch":
+					if yaml value "quizz_active.%discord id of event-channel%" from "qzb-quizzdata" is not true:
+						if arg-2 is set:
+							if yaml list "scenarios" from "qzb-scenarlist" contains arg-2:
+								load yaml "plugins/QuizzBot/temp/%discord id of event-channel%" as "qzb-tq%discord id of event-channel%"
+								if yaml value "question.1.question" from "qzb-sc%arg-2%" is set:
+									set {_numb} to 1
+									set yaml value "quizz_active" from "qzb-tq%discord id of event-channel%" to true
+									set {_theme} to yaml value "theme" from "qzb-sc%arg-2%"
+									set {_desc} to yaml value "description" from "qzb-sc%arg-2%"
+									make embed:
+										set title of embed to ":brain:  •  Quizz sur : %{_theme} ? ""?""%"
+										set description of embed to "%{_desc} ? ""Préparez vous !""%"
+										set color of embed to green
+									reply with last embed
+									wait 4 seconds
+									make embed:
+										set title of embed to "5"
+										set color of embed to green
+									reply with last embed and store it in {_msg}
+									set {_timing} to 5
+									loop 4 times:
+										remove 1 from {_timing}
+										if yaml value "quizz_active" from "qzb-tq%discord id of event-channel%" is true:
+											make embed:
+												set title of embed to "%{_timing}%"
+												set color of embed to green
+											edit {_msg} to say last embed
+											wait 1.2 seconds
+										else:
+											stop
+									make embed:
+										set title of embed to "GO !"
+										set color of embed to green
+									edit {_msg} to say last embed
+									wait 0.5 second
+									while yaml value "question.%{_numb}%.question" from "qzb-sc%arg-2%" is set:
+										set {_ask} to yaml value "question.%{_numb}%.question" from "qzb-sc%arg-2%"
+										make embed:
+											set title of embed to "%{_ask}%"
+											set color of embed to green
+										reply with last embed
+										if yaml value "question.%{_numb}%.time" from "qzb-sc%arg-2%" is set:
+											set {_waittime} to yaml value "question.%{_numb}%.time" from "qzb-sc%arg-2%"
+											set {_waittime} to "%{_waitime}% seconds" parsed as timespan
+										else:
+											set {_waittime} to 20 seconds
+										set yaml value "basetime" from "qzb-tq%discord id of event-channel%" to unix timestamp of now
+										wait {_waittime}
+										
+										add 1 to {_numb}
+									make embed:
+										set title of embed to "Quizz Terminé !"
+										set color of embed to green
+									reply with last embed
+								else:
+									make embed:
+										set title of embed to "Erreur !"
+										set description of embed to "Ce scénario ne contient aucune question !"
+										set color of embed to red
+										set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+										set footer of embed to "Éxécuté par %event-user%"
+									reply with last embed
+							else:
+								make embed:
+									set title of embed to "Erreur !"
+									set description of embed to "Ce scénario n'existe pas !"
+									set color of embed to red
+									set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+						else:
+							make embed:
+								set title of embed to "Erreur !"
+								set description of embed to "Veuillez préciser un scénario !"
+								set color of embed to red
+								set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+								set footer of embed to "Éxécuté par %event-user%"
+							reply with last embed						
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "Un quizz est déjà lancé !"
+							set color of embed to red
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed	
+				else if arg-1 is "stop":
+					set yaml value "quizz_active.%discord id of event-channel%" from "qzb-quizzdata" to false			
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Mauvaise utilisation de la commande !%nl%Utilisation : `:quizz start <quizz>`"
+						set color of embed to red
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed					
+			else:
+				make embed:
+					set title of embed to "Erreur !"
+					set description of embed to "Vous n'avez pas la permission d'éxécuter cette commande ici !"
+					set color of embed to red
+					set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+					set footer of embed to "Éxécuté par %event-user%"
+				reply with last embed
+
+on reaction add seen by "DiscordiaBot":
+	if yaml value "quizz_active" from "qzb-tq%discord id of event-channel%" is true:
+		

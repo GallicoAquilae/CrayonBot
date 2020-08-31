@@ -1,0 +1,286 @@
+discord command :scenario [<string>] [<string>] [<string>] [<string>]:
+	trigger:
+		if event-bot is "DiscordiaBot":
+			if arg 1 is "list":
+				if size of yaml list "scenarios" from "qzb-scenarlist" is not 0:
+					loop yaml list "scenarios" from "qzb-scenarlist":
+						if {_text} is not set:
+							set {_text} to "• **%loop-value%**"
+						else:
+							set {_text} to "%{_text}%%nl%• **%loop-value%**"
+					make embed:
+						set title of embed to "Liste des scénarios :"
+						set description of embed to "%{_text}%%nl%%nl%Pour plus d'informations sur un scénario, faites `:scenario info <scenario>`"
+						set color of embed to yellow
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed
+				else:
+					make embed:
+						set title of embed to "Aucun scénario !"
+						set description of embed to "%nl%Pour ajouter un scénario, faites `:scenario create <scenario>`"
+						set color of embed to red
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed
+			else if arg-1 is "create":
+				if arg-2 is set:
+					if arg-2 is alphanumeric:
+						if yaml list "scenarios" from "qzb-scenarlist" does not contain arg-2:
+							add arg-2 to yaml list "scenarios" from "qzb-scenarlist"
+							load yaml "plugins/QuizzBot/scenarios/%arg-2%" as "qzb-sc%arg-2%"
+							set yaml value "id" from "qzb-sc%arg-2%" to arg-2 
+							set yaml value "questions_number" from "qzb-sc%arg-2%" to 0
+							make embed:
+								set title of embed to "Scénario créé !"
+								set description of embed to "Le scénario a bien été créé, vous pouvez le modifier avec la commande `:scenario edit %arg-2%` et voir ce qu'il contient avec la commande `:scenario info %arg-2%` !"
+								set color of embed to green
+								set footer of embed to "Éxécuté par %event-user%"
+							reply with last embed 
+						else:
+							make embed:
+								set title of embed to "Erreur !"
+								set description of embed to "Un scénario avec ce nom existe déjà !"
+								set color of embed to red
+								set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+								set footer of embed to "Éxécuté par %event-user%"
+							reply with last embed
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "L'identifiant choisi contient des charactéres spéciaux !"
+							set color of embed to red
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser un nom pour le scénario !%nl%Utilisation : `:scenario create <nom>`"
+						set color of embed to red
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed
+			else if arg-1 is "delete":
+				if arg-2 is set:
+					if yaml list "scenarios" from "qzb-scenarlist" contains arg-2:
+						remove arg-2 from yaml list "scenarios" from "qzb-scenarlist"
+						delete "plugins/QuizzBot/scenarios/%arg-2%"
+						make embed:
+							set title of embed to "Scénario supprimé !"
+							set description of embed to "Le scénario `%arg-2%` a bien été supprimé !"
+							set color of embed to green
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed 
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "Aucun scénario n'existe avec ce nom !"
+							set color of embed to red
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser un nom de scénario !%nl%Utilisation : `:scenario create <nom>`"
+						set color of embed to red
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed
+			else if arg-1 is "info":
+				if arg-2 is set:
+					if yaml list "scenarios" from "qzb-scenarlist" contains arg-2:
+						load yaml "plugins/QuizzBot/scenarios/%arg-2%" as "qzb-sc%arg-2%"
+						set {_add} to yaml value "id" from "qzb-sc%arg-2%"
+						set {_text} to "•  **Identifiant** : `%{_add}%`"
+						if yaml value "theme" from "qzb-sc%arg-2%" is set:
+							set {_add} to yaml value "theme" from "qzb-sc%arg-2%"
+							set {_text} to "%{_text}%%nl%•  **Théme** : `%{_add}%`"
+						if yaml value "questions_number" from "qzb-sc%arg-2%" is set:
+							if yaml value "questions_number" from "qzb-sc%arg-2%" = 0:
+								set {_add} to "Aucune :("
+							else:
+								set {_add} to yaml value "questions_number" from "qzb-sc%arg-2%"
+							set {_text} to "%{_text}%%nl%•  **Nombre de questions** : `%{_add}%`"
+						if yaml value "question.1.question" from "qzb-sc%arg-2%" is set:
+							set {_numb} to 1
+							while yaml value "question.%{_numb}%.question" from "qzb-sc%arg-2%" is set:
+								set {_t} to yaml value "question.%{_numb}%.question" from "qzb-sc%arg-2%"
+								if {_addt} is not set:
+									set {_addt} to "»   **1**   •   `%{_t}%`"
+								else:
+									set {_addt} to "%{_addt}%%nl%»   **%{_numb}%**   •   `%{_t}%`"
+								add 1 to {_numb}
+							set {_text} to "%{_text}%%nl%•  **Questions** : %nl%%{_addt}%"
+						loop 
+							
+						make embed:
+							set footer of embed to "Éxécuté par %event-user%"
+							set color of embed to green
+						reply with ":arrow_forward:    **Informations du scénario ""`%arg-2%`"" :**%nl% %nl%%{_text}%"
+						reply with last embed
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "Aucun scénario n'existe avec ce nom !"
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set color of embed to red
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser le scénario !%nl%Utilisation : `:scenario info <scénario>`"
+						set color of embed to red
+						set footer of embed to "Éxécuté par %event-user%"
+					reply with last embed
+			else if arg-1 is "edit":
+				if arg-2 is set:
+					if yaml list "scenarios" from "qzb-scenarlist" contains arg-2:
+						if arg-4 is set:
+							load yaml "plugins/QuizzBot/scenarios/%arg-2%" as "qzb-sc%arg-2%"
+							if arg-3 is "theme" or "Theme" or "Théme":
+								set {_old} to yaml value "theme" from "qzb-sc%arg-2%"
+								set yaml value "theme" from "qzb-sc%arg-2%" to arg-4
+								make embed:
+									set title of embed to "Théme changé !"
+									set description of embed to "Le titre à été changé, passant de `%{_old}%` à `%arg-4%` !"
+									set color of embed to green
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+							else if arg-3 is "id" or "identifiant":
+								make embed:
+									set title of embed to "Erreur !"
+									set color of embed to red
+									set description of embed to "Vous ne pouvez pas modifier l'identifiant d'un scénario !"
+									set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+							else if arg-3 is "description":
+								set yaml value "description" from "qzb-sc%arg-2%" to arg-4
+								make embed:
+									set title of embed to "Description changée !"
+									set description of embed to "La description a été changée !"
+									set color of embed to green
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+							else:
+								make embed:
+									set title of embed to "Erreur !"
+									set color of embed to red
+									set description of embed to "Aucune option n'existe avec ce nom !"
+									set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+						else:
+							make embed:
+								set title of embed to "Erreur !"
+								set description of embed to "Vous devez préciser un 4éme argument !"
+								set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+								set color of embed to red
+								set footer of embed to "Éxécuté par %event-user%"
+							reply with last embed
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "Aucun scénario n'existe avec ce nom !"
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set color of embed to red
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser le nom du scénario !%nl%Utilisation : `:scenario edit <option> <argument>`"
+						set color of embed to red
+						set footer of embed to "Éxécuté par %event-user%"
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+					reply with last embed
+			else if arg-1 is "help":
+				make embed:
+					set title of embed to "`:scenario` :"
+					set description of embed to "•  `:scenario help` :%nl%Affiche cette commande%nl%%nl%•  `:scenario create <identifiant>` :%nl%Permet de créer un nouveau Quizz avec un identifiant qui ne peut **PAS** être changé.%nl%%nl%•  `:scenario list` :%nl%Permet de voir tous les scénarios actifs.%nl%%nl%•  `:scenario delete <identifiant>` :%nl%Permet de supprimer un scénario%nl%%nl%•  `:scenario info <identifiant>` : %nl%Permet d'avoir des informations sur un scénario donné"
+					set color of embed to green
+					set footer of embed to "Éxécuté par %event-user%"
+				reply with last embed
+			else if arg-1 is "clear":
+				delete "plugins/QuizzBot/scenarios/"
+				clear yaml list "scenarios" from "qzb-scenarlist"
+				make embed:
+					set title of embed to "Tous les scénarios ont étés clear !"
+					set description of embed to "Tous les scénarios ont étés supprimés !"
+					set color of embed to green
+					set footer of embed to "Éxécuté par %event-user%"
+				reply with last embed
+			else if arg-1 is "question":
+				if arg-2 is set:
+					if yaml list "scenarios" from "qzb-scenarlist" contains arg-2:
+						if arg-4 is set:
+							if arg-3 is "add":
+								set {_num} to yaml value "questions_number" from "qzb-sc%arg-2%"
+								add 1 to {_num}
+								set yaml value "questions_number" from "qzb-sc%arg-2%" to {_num}
+								set yaml value "question.%{_num}%.question" from "qzb-sc%arg-2%" to arg-4
+								set yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir" from "qzb-temp" to "question.%{_num}%.answers"
+								set yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir2" from "qzb-temp" to arg-2
+								make embed:
+									set title of embed to "Question ajoutée !"
+									set description of embed to "La question numéro **%{_num}%** a été ajoutée !%nl%Envoyez vos réponses en message directement ici, pour ajouter une bonne réponse, ajoutez `$true` à la fin de votre message, pour finir, envoyez juste `stop`"
+									set color of embed to green
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+								save "qzb-sc%arg-2%"
+							else:
+								make embed:
+									set title of embed to "Erreur !"
+									set description of embed to "Utilisation : `:scenario question [add; delete]`"
+									set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+									set color of embed to red
+									set footer of embed to "Éxécuté par %event-user%"
+								reply with last embed
+						else:
+							make embed:
+								set title of embed to "Erreur !"
+								set description of embed to "Vous devez préciser un 4éme argument !"
+								set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+								set color of embed to red
+								set footer of embed to "Éxécuté par %event-user%"
+							reply with last embed
+					else:
+						make embed:
+							set title of embed to "Erreur !"
+							set description of embed to "Aucun scénario n'existe avec ce nom !"
+							set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+							set color of embed to red
+							set footer of embed to "Éxécuté par %event-user%"
+						reply with last embed
+				else:
+					make embed:
+						set title of embed to "Erreur !"
+						set description of embed to "Vous devez préciser le nom du scénario !%nl%Utilisation : `:scenario edit <option> <argument>`"
+						set color of embed to red
+						set footer of embed to "Éxécuté par %event-user%"
+						set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+					reply with last embed
+			else:
+				make embed:
+					set title of embed to "Erreur !"
+					set description of embed to "Arguments incorrects !%nl%Utilisation : `:scenario [list; create; delete; info; help]`"
+					set color of embed to red
+					set thumbnail of embed to "https://cdn.discordapp.com/emojis/589578504220180481.png?v=1"
+					set footer of embed to "Éxécuté par %event-user%"
+				reply with last embed
+			save "qzb-sc%arg-2%"
+
+on guild message received seen by "DiscordiaBot":
+	if yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir" from "qzb-temp" is set:
+		set {_yml} to yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir" from "qzb-temp"
+		set {_yml2} to yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir2" from "qzb-temp"
+		if message is not "stop":
+			add event-message to yaml list "%{_yml}%" from "qzb-sc%{_yml2}%"
+			add reaction "white_check_mark" to event-message
+			save "%{_yml2}%"
+		else:
+			clear yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir" from "qzb-temp"
+			clear yaml value "addanswer.%discord id of event-channel%.%discord id of event-user%.dir2" from "qzb-temp"
+			reply with "cbon j'arrête de faire chier"

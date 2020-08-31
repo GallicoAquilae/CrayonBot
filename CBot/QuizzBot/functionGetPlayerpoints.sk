@@ -1,0 +1,2 @@
+function getPlayerPoints(timetook: number, maxtime: number, max: integer) :: integer:
+	return rounded ({_timetook} * {_max}) / {_maxtime}

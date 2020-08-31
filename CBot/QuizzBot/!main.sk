@@ -1,0 +1,23 @@
+on script load:
+	set {delay} to unix timestamp of now
+	send "[QuizzBot] Loading..." to console
+	load yaml "plugins/QuizzBot/temp/botdata" as "qzb-botdata"
+	load yaml "plugins/QuizzBot/temp/quizzdata" as "qzb-quizzdata"
+	load yaml "plugins/QuizzBot/temp/temp" as "qzb-temp"
+	set yaml value "working_by" from "qzb-botdata" to now
+
+	load yaml "plugins/QuizzBot/botinfo" as "qzb-botinfo"
+	load yaml "plugins/QuizzBot/scenarioslist" as "qzb-scenarlist"
+	login to "NzQ2NDAxNDM1NTI4MzMxMzY0.Xz_ygQ.zCKKMNpMqyLoy1XoF6j8xkPGjnw" with the name "QuizzBot"
+	set {delay} to (difference between unix timestamp of now and {delay})
+	send "[QuizzBot] Loaded ! (%{delay}% s)" to console
+	set yaml value "load_delay.%now%" from "qzb-botinfo" to {delay}
+
+on script unload:
+	save yaml currently loaded yaml
+	unload yaml currently loaded yaml
+	delete "plugins/QuizzBot/temp"
+	logout "QuizzBot"
+
+every 2 minutes:
+	save yaml currently loaded yaml

@@ -1,0 +1,18 @@
+discord command :help [<string>]:
+	trigger:
+		if arg-1 is "scenario" or ":scenario":
+			make embed:
+				set title of embed to "`:scenario` :"
+				set description of embed to "•  `:scenario help` :%nl%Affiche cette commande%nl%%nl%•  `:scenario create <identifiant>` :%nl%Permet de créer un nouveau Quizz avec un identifiant qui ne peut **PAS** être changé.%nl%%nl%•  `:scenario list` :%nl%Permet de voir tous les scénarios actifs.%nl%%nl%•  `:scenario delete <identifiant>` :%nl%Permet de supprimer un scénario%nl%%nl%•  `:scenario info <identifiant>` : %nl%Permet d'avoir des informations sur un scénario donné"
+				set color of embed to green
+				set footer of embed to "Éxécuté par %event-user%"
+			reply with last embed
+		else if arg-1 is "help":
+			reply with "Demander de l'aide à propos de la commande d'aide :brain:"
+		else:
+			make embed:
+				set the title of embed to "Commandes de QuizzBot"
+				set the description of embed to "•   `:help [<commande>]` :%nl%Affiche ce message%nl%%nl%•  `:scenario [list; create; delete; info; help]` :%nl%Permet de créer des Quizz, d'en créer et de les modifier !%nl%%nl%•  `:quizz [launch; stop] <scenario>` :%nl%"
+				set color of embed to green
+				set footer of embed to "Éxécuté par %event-user%"
+			reply with last embed

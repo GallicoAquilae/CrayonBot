@@ -1,0 +1,17 @@
+function sort(index: strings, value: objects, descending: boolean = false) :: strings:
+	loop {_index::*}:
+		set {_list::%loop-value%} to {_value::%loop-index%}
+	loop {_list::*}:
+		add loop-index to {_inverted::%loop-value%::*}
+	if {_descending} is true:
+		set {_list::*} to reversed sorted {_list::*}
+	else:
+		set {_list::*} to sorted {_list::*}
+	set {_position} to 1
+	loop {_list::*}:
+		{_last} is not loop-value
+		set {_last} to loop-value
+		loop {_inverted::%loop-value%::*}:
+			set {_sorted::%{_position}%} to loop-value-2
+			add 1 to {_position}            
+	return {_sorted::*}
