@@ -1,0 +1,12 @@
+discord command c!help:
+	trigger:
+		make embed:
+			set title of embed to "`c!help [<commande>]`"
+			set description of embed to "Permet d'avoir ce message ou d'avoir des informations sur une commande donnée."
+			set color of embed to green
+		set {_text} to last embed
+		make embed:
+			set title of embed to "`c!botinfo`"
+			set description of embed to "Permet d'avoir des informations sur le bot"
+			set color of embed to green
+		set {_text} to "%{_text}%%last embed%"

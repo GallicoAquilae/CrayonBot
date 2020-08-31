@@ -1,0 +1,10 @@
+discord command c!botinfo:
+	trigger:
+		set {_timealive} to yaml value "lastlog" from "C-botData"
+		set {_timealive} to difference between {_timealive} and now
+		set {_logtime} to yaml value "last_mesured_log" from "C-botData"
+		make embed:
+			set title of embed to "Informations du bot :"
+			set description of embed to "**Préfixe** : `c!`%nl%**Ping** : `%event.getMessage().getJDA().getGatewayPing()%` ms%nl%**Temps de connexion **: `%{_timealive}%`"
+			set color of embed to green
+		reply with last embed

@@ -1,0 +1,14 @@
+discord command c!version [<string>]:
+	trigger:
+		if discord id of event-user is "258285666654224385":
+			set yaml value "botversion" from "C-botData" to arg-1
+			make embed:
+				set title of embed to "Version changée !"
+				set color of embed to green
+			reply with last embed
+		else:
+			make embed:
+				set title of embed to "Erreur !"
+				set color of embed to red
+				set description of embed to "Vous n'avez pas la permission d'éxécuter cette commande !"
+			reply with last embed

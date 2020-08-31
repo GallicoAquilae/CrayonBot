@@ -1,0 +1,473 @@
+discord command c!go:
+	trigger:
+	#	if event-member has permission manage channel in event-channel:
+			if event-bot is "CBot":
+				clear {points::*}
+				clear {g::*} 
+				set {wegud?} to "no wirnot"
+				load yaml "temp" as "temp"
+				make embed:
+					set title of embed to "Début du Quizz !"
+					set color of embed to green
+					set description of embed to "Préparez vous !"
+				reply with last embed
+				wait 4 seconds
+				set {_} to 5
+				make embed:
+					set title of embed to "%{_}%"
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				loop 4 times:
+					remove 1 from {_}
+					wait 1.2 seconds
+					make embed:
+						set title of embed to "%{_}%"
+						set color of embed to green
+					edit {msg} to say last embed
+				wait 1.2 seconds
+				make embed:
+					set title of embed to "PARTEZ !"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 1 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "2⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "La guerre de sécession opposa qui à qui ?"
+					set description of embed to "%nl%:one: • Le Royaume-Uni à l'Union%nl%:two: • L'Union aux États Confédérés d'Amérique%nl%:three: • La France au Royaume-Uni%nl%:four: • L'Union au Canada"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 2
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "3⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Qui était le représentant de l'Union durant la guerre de sécession ?"
+					set description of embed to "%nl%:one: • Georges Washington%nl%:two: • Dwight David Eisenhower%nl%:three: • Abraham Lincoln%nl%:four: • Abraham Washington"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 3
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "1⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quel fût l'événement qui déclencha la guerre de Sécession ?"
+					set description of embed to "%nl%:one: • Bataille du Fort Sumter%nl%:two: • Attentats du 11 septembre%nl%:three: • Incident du pont Marco Polo%nl%:four: • Bataille de Little Bighorn"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 4
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "1⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quels fûrent les 7 premiers états à faire sécession avant de forme les États Confédérés ?"
+					set description of embed to "%nl%:one: • La Caroline du sud, le Mississipi, la Floride, l'Alabama, la Géorgie, la Louisiane et le Texas%nl%:two: • L'Alabama, la Californie, le Texas, la Caroline du Sud, la Floride, la Géorgie et le Wisconsin%nl%:three: • La Floride, le Texas, la Florence, l'Alabama, le Texas, la Lorraine%nl%:four: • Il n'y en avait pas 7"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 5
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "4⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quelles étaient les 3 couleurs présentes sur les drapeaux des 2 partis de la guerre ?"
+					set description of embed to "%nl%:one: • Rouge, blanc et noir%nl%:two: • Blanc, bleu et vert%nl%:three: • Vert, noir et rouge%nl%:four: • Rouge, blanc et bleu"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 6
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "2⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quels fûrent les 4 états à faire sécession aprés le début de la guerre ?"
+					set description of embed to "%nl%:one: • Virginie, Arkansas, Ohio et Alabama%nl%:two: • Virginie, Arkansas, Tennessee, Caroline du Nord%nl%:three: • Arkansas, Tennesse, Kentucky et Alabama%nl%:four: • Kentucky, Ohio, Virginie et Arkansas"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 7
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "3⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Qui était le président confédéré ?"
+					set description of embed to "%nl%:one: • Georges Washington%nl%:two: • Woodrow Wilson%nl%:three: • Jefferson Davis%nl%:four: • Kalhel Washington"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 8
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "1⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quelles étaient les capitales confédérés ?"
+					set description of embed to "%nl%:one: • Montgomery, Richmond puis enfin Danville%nl%:two: • Miami, Tokyo puis enfin Washington%nl%:three: • Montgomery, London puis enfin Richmond%nl%:four: • Il n'y a jamais eu que Washington :pray:"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 9
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "1⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quelle était la devise de l'Union à l'époque ?"
+					set description of embed to "%nl%:one: • 'E pluribus unum', 'De plusieurs, un'%nl%:two: • 'God bless America, America bless God'%nl%:three: • 'Muuuuricaaaaa FUCK YEAH'%nl%:four: • 'In god we trust'"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin de la manche !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+
+#   QUESTION 10
+
+				wait 6 seconds
+				make embed:
+					set title of embed to "Chargement..."
+					set color of embed to green
+				reply with last embed and store it in {msg}
+				set {basetime} to unix timestamp of now
+				add reactions "one", "two", "three" and "four" to {msg} with "CBot"
+				set {true} to "3⃣"
+				wait 4 seconds
+				set {wegud?} to "yes we are booooooooooooois"
+				clear {played::*}
+				make embed:
+					set title of embed to "Quel fût le nombre total de morts de cette guerre ?"
+					set description of embed to "%nl%:one: • ~100 000 morts%nl%:two: • ~300 000 morts%nl%:three: • ~600 000 morts%nl%:four: • ~1 000 000 morts"
+					set color of embed to green
+				edit {msg} to say last embed
+				wait 20 seconds
+				set {wegud?} to "no wirnot"
+				clear {msg}
+				broadcast "%{points::*}%"
+				set {_sort::*} to sort2((indices of {points::*}), {points::*}, true)
+				set {_loop} to 0
+				loop {_sort::*}:
+					add 1 to {_loop}
+					if {_loop} = 1:
+						set {_t} to ":first_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 2:
+						set {_t} to "%{_t}%%nl%:second_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else if {_loop} = 3:
+						set {_t} to "%{_t}%%nl%:third_place: • %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+					else:
+						set {_t} to "%{_t}%%nl%» %mention tag of user with id loop-value% - `%{points::%loop-value%}% points`"
+				make embed:
+					set title of embed to "Fin du Quizz !"
+					set description of embed to {_t}
+					set color of embed to green
+				reply with last embed
+				wait 5 seconds
+				set {_ty} to first element of {_sort::*}
+				make embed:
+					set title of embed to "Victoire de %first element of {_sort::*}% !"
+					set description of embed to "Merci beaucoup d'avoir participé !"
+					set footer of embed to "Organisé par Kalhel, K3X3L et Gallico"
+					set color of embed to green
+				reply with last embed
+
+
+on reaction add seen by "CBot":
+	discord id of event-user is not "745349112203051109"
+	if {played::*} does not contain discord id of event-user:
+		if {wegud?} is "yes we are booooooooooooois":
+			if {msg} is event-message:
+				if {g::*} does not contain discord id of event-user:
+					add discord id of event-user to {g::*}
+				if "%event-emote%" is {true}:
+					add getPlayerPoints2(difference between unix timestamp of now and {basetime}, 20, 10) to {points::%discord id of event-user%}
+					broadcast "%{points::%discord id of event-user%}%"
+				remove event-emote added by event-user from event-message with event-bot
+				add discord id of event-user to {played::*}
+
+	broadcast "%event-emote%"
+
+function getPlayerPoints2(timetook: number, maxtime: number, max: integer) :: integer:
+	return rounded ({_maxtime} - {_timetook}) * {_max}
+
+function sort2(index: strings, value: objects, descending: boolean = false) :: strings:
+	loop {_index::*}:
+		set {_list::%loop-value%} to {_value::%loop-index%}
+	loop {_list::*}:
+		add loop-index to {_inverted::%loop-value%::*}
+	if {_descending} is true:
+		set {_list::*} to reversed sorted {_list::*}
+	else:
+		set {_list::*} to sorted {_list::*}
+	set {_position} to 1
+	loop {_list::*}:
+		{_last} is not loop-value
+		set {_last} to loop-value
+		loop {_inverted::%loop-value%::*}:
+			set {_sorted::%{_position}%} to loop-value-2
+			add 1 to {_position}            
+	return {_sorted::*}

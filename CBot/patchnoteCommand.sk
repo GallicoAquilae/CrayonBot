@@ -1,0 +1,11 @@
+discord command c!patchnote:
+	trigger:
+		grab last 1 messages in channel with id "748947803669135464"
+		set {_version} to yaml value "botversion" from "C-botData"
+		set {_a::*} to grabbed messages
+		set {_t} to "%{_a::*}%"
+		make embed:
+			set color of embed to green
+			set title of embed to "%{_version}%"
+			set description of embed to {_t}
+		reply with last embed
