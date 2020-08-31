@@ -1,0 +1,14 @@
+on script load:
+	set {_} to unix timestamp of now
+	login to "NzQ1MzQ5MTEyMjAzMDUxMTA5.XzwedA.swWjogM8oRithDcY1ilxTAh7-ms" with name "CBot"
+	load yaml "CBot/data/botData" as "C-botData"
+	load yaml "CBot/data/GData" as "C-GData"
+	set yaml value "lastlog" from "C-botData" to now
+	set yaml value "last_mesured_log" from "C-botData" to difference between unix timestamp of now and {_}
+	set yaml value "login_logs.[%now%]" from "C-botData" to difference between unix timestamp of now and {_}
+
+on script unload:
+	logout "CBot"
+	save yaml currently loaded yaml files
+	unload yaml currently loaded yaml files
+	delete "CBot/temp/"
